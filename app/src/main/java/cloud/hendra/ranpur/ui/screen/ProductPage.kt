@@ -31,7 +31,6 @@ data class Product(val name: String, val stock: Int, val price: Double)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductPage() {
-    // Sample product data
     val allProducts = remember {
         listOf(
             Product("Product A", 10, 19.99),
@@ -54,7 +53,6 @@ fun ProductPage() {
                 .padding(innerPadding)
                 .padding(16.dp)
         ) {
-            // Search Bar
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = { searchQuery = it },
@@ -67,7 +65,6 @@ fun ProductPage() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Product List
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(vertical = 8.dp)
