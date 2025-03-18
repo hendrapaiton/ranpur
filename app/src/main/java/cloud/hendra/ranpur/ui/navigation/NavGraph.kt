@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import cloud.hendra.ranpur.ui.screen.SalesPage
 
 @Composable
 fun Navigation(navController: NavHostController) {
@@ -14,6 +15,8 @@ fun Navigation(navController: NavHostController) {
         composable(route = "login") {}
         composable(route = "product") {}
         composable(route = "stock") {}
-        composable(route = "sales") {}
+        composable(route = "sales") {
+            SalesPage()
+        }
     }
 }
