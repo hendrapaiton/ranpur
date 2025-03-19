@@ -19,7 +19,7 @@ class AuthViewModel(
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
-            _authState.value = Loading
+            _authState.value = Idle
 
             when (val result = loginUseCase(email, password)) {
                 is Result.Success -> {

@@ -72,7 +72,7 @@ fun LoginPage(onLoginSuccess: () -> Unit, viewModel: AuthViewModel = koinViewMod
             label = { Text("Password") },
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         when (val authState = state) {
             is Loading -> CircularProgressIndicator()
             is Error -> Text(text = authState.message)
@@ -80,12 +80,13 @@ fun LoginPage(onLoginSuccess: () -> Unit, viewModel: AuthViewModel = koinViewMod
             is Idle -> {
                 Button(
                     onClick = { viewModel.login(username, password) },
-                    modifier = Modifier.height(16.dp)
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
                         text = "Masuk".uppercase(),
-                        fontSize = 18.sp,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.sp
                     )
                 }
             }
