@@ -1,6 +1,5 @@
 package cloud.hendra.ranpur.ui.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,78 +7,101 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import cloud.hendra.ranpur.R
+import androidx.compose.ui.unit.sp
+import cloud.hendra.ranpur.ui.viewmodel.AuthViewModel
+import cloud.hendra.ranpur.utils.state.AuthState.Loading
+import cloud.hendra.ranpur.utils.state.AuthState.Success
+import cloud.hendra.ranpur.utils.state.AuthState.Error
+import cloud.hendra.ranpur.utils.state.AuthState.Idle
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginPage() {
+fun LoginPage(onLoginSuccess: () -> Unit, viewModel: AuthViewModel = koinViewModel()) {
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    val state by viewModel.authState
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Welcome!",
-            style = MaterialTheme.typography.headlineLarge,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
+            text = "Selamat Datang".uppercase(),
+            fontSize = 24.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = MaterialTheme.colorScheme.primary
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        val emailState = remember { mutableStateOf("") }
-        OutlinedTextField(
-            value = emailState.value,
-            onValueChange = { emailState.value = it },
-            label = { Text("Email") },
-            modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+        Text(
+            text = "Ternak Cuan",
+            fontSize = 18.sp,
+            fontWeight = FontWeight.ExtraLight,
+            color = MaterialTheme.colorScheme.secondary,
+            letterSpacing = 5.sp
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        val passwordState = remember { mutableStateOf("") }
-        OutlinedTextField(
-            value = passwordState.value,
-            onValueChange = { passwordState.value = it },
-            label = { Text("Password") },
-            modifier = Modifier.fillMaxWidth(),
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-        )
-
         Spacer(modifier = Modifier.height(24.dp))
-
-        Button(
-            onClick = {},
+        OutlinedTextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text("Username") },
             modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Login")
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Password") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        when (val authState = state) {
+            is Loading -> CircularProgressIndicator()
+            is Error -> Text(text = authState.message)
+            is Success -> onLoginSuccess()
+            is Idle -> {
+                Button(
+                    onClick = { viewModel.login(username, password) },
+                    modifier = Modifier.height(16.dp)
+                ) {
+                    Text(
+                        text = "Masuk".uppercase(),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+            }
         }
     }
+}
+
+@Composable
+fun LoginScreen() {
+    LoginPage(
+        onLoginSuccess = {}
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun LoginPagePreview() {
-    LoginPage()
+    LoginScreen()
 }

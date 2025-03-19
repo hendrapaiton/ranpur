@@ -10,7 +10,7 @@ import cloud.hendra.ranpur.ui.screen.SalesPage
 fun Navigation(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = "sales"
+        startDestination = "login"
     ) {
         composable(route = "login") {}
         composable(route = "product") {}
