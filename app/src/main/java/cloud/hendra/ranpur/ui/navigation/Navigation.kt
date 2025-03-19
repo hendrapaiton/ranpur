@@ -5,7 +5,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import cloud.hendra.ranpur.ui.screen.LoginPage
+import cloud.hendra.ranpur.ui.screen.ProductPage
 import cloud.hendra.ranpur.ui.screen.SalesPage
+import cloud.hendra.ranpur.ui.screen.StockPage
 
 @Composable
 fun Navigation(navController: NavHostController) {
@@ -16,8 +18,12 @@ fun Navigation(navController: NavHostController) {
         composable(route = "login") {
             LoginPage(onLoginSuccess = { navController.navigate("sales") })
         }
-        composable(route = "product") {}
-        composable(route = "stock") {}
+        composable(route = "product") {
+            ProductPage()
+        }
+        composable(route = "stock") {
+            StockPage()
+        }
         composable(route = "sales") {
             SalesPage()
         }
