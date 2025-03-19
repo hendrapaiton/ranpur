@@ -3,6 +3,7 @@ package cloud.hendra.ranpur
 import android.app.Application
 import cloud.hendra.ranpur.data.module.networkModule
 import cloud.hendra.ranpur.data.module.repositoryModule
+import cloud.hendra.ranpur.data.module.securityModule
 import cloud.hendra.ranpur.data.module.serviceModule
 import cloud.hendra.ranpur.data.module.useCaseModule
 import cloud.hendra.ranpur.data.module.viewModelModule
@@ -19,6 +20,7 @@ class MainApplication : Application() {
             modules(
                 listOf(
                     networkModule,
+                    securityModule,
                     serviceModule,
                     repositoryModule,
                     useCaseModule,
