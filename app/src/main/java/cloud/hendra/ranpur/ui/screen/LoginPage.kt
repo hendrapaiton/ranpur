@@ -1,5 +1,6 @@
 package cloud.hendra.ranpur.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -76,7 +77,10 @@ fun LoginPage(onLoginSuccess: () -> Unit, viewModel: AuthViewModel = koinViewMod
         when (val authState = state) {
             is Loading -> CircularProgressIndicator()
             is Error -> Text(text = authState.message)
-            is Success -> onLoginSuccess()
+            is Success -> {
+                Log.d("Login", "Login success")
+                onLoginSuccess()
+            }
             is Idle -> {
                 Button(
                     onClick = { viewModel.login(username, password) },
