@@ -58,4 +58,22 @@ dependencies {
 
     // Android Navigation
     implementation(libs.androidx.navigation.compose)
+
+    // Network Connection
+    implementation(libs.retrofit)
+    implementation(libs.retrofit2.converter.gson)
+    implementation(libs.logging.interceptor)
+
+    // DI
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
+
+    // Async
+    implementation(libs.kotlinx.coroutines.android)
+
+    // Image Loading
+    implementation(libs.coil.compose)
+
+    // Security
+    implementation(libs.androidx.security.crypto.ktx)
 }
