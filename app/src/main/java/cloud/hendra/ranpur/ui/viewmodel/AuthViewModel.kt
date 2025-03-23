@@ -1,9 +1,7 @@
 package cloud.hendra.ranpur.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import cloud.hendra.ranpur.data.remote.dto.LoginResponse
 import cloud.hendra.ranpur.domain.usecase.LoginUseCase
 import cloud.hendra.ranpur.domain.usecase.UserUseCase
 import cloud.hendra.ranpur.utils.auth.Result
@@ -30,7 +28,7 @@ class AuthViewModel(
 
             when (val result = loginUseCase(email, password)) {
                 is Result.Success -> {
-                    tokenManager.saveAccessToken(LoginResponse(result.data.toString()).token)
+                    tokenManager.saveAccessToken(result.data)
                     _authState.value = GuardState.Authenticated
                 }
 

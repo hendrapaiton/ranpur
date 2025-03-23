@@ -25,17 +25,17 @@ import org.koin.androidx.compose.koinViewModel
 fun Navigation(navController: NavHostController, authViewModel: AuthViewModel = koinViewModel()) {
     val authState by authViewModel.authState.collectAsState()
 
-    LaunchedEffect(Unit) {
-        authViewModel.user()
-    }
-
     LaunchedEffect(authState) {
         when (authState) {
             is GuardState.Authenticated -> navController.navigate(SALES)
             is GuardState.Unauthenticated -> navController.navigate(LOGIN)
             is GuardState.Loading -> navController.navigate(LOADING)
-            else -> navController.navigate(LOGIN)
+            else -> navController.navigate(LOADING)
         }
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        authViewModel.user()
     }
 
     NavHost(
