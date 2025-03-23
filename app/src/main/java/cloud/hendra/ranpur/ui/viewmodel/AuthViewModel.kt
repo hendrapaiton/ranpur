@@ -30,7 +30,6 @@ class AuthViewModel(
 
             when (val result = loginUseCase(email, password)) {
                 is Result.Success -> {
-                    Log.d("AuthViewModel", "Login Success: $result")
                     tokenManager.saveAccessToken(LoginResponse(result.data.toString()).token)
                     _authState.value = GuardState.Authenticated
                 }

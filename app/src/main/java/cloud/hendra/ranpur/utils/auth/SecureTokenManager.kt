@@ -17,7 +17,6 @@ class SecureTokenManager(private val context: Context) : TokenManager {
     }
 
     override fun saveAccessToken(token: String) {
-        Log.d("TokenManager", "Saving token: $token")
         prefs.edit {
             putString(KEY_ACCESS_TOKEN, token)
         }

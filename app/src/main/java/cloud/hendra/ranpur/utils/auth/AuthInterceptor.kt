@@ -18,7 +18,6 @@ class AuthInterceptor(
         val requestPath = "/${pathSegments.joinToString("/")}"
         val newRequestBuilder = request.newBuilder().addHeader("Accept", "application/json")
         return if (shouldAddToken(requestPath)) {
-            Log.d("AuthInterceptor", "Request Path: ${shouldAddToken(requestPath)}")
             addTokenToRequest(chain, newRequestBuilder.build())
         } else {
             chain.proceed(newRequestBuilder.build())
@@ -32,12 +31,7 @@ class AuthInterceptor(
     }
 
     private fun addTokenToRequest(chain: Interceptor.Chain, originalRequest: Request): Response {
-        Log.d("AuthInterceptor", "addTokenToRequest")
-        tokenManager.getAccessToken()?.let { token ->
-            Log.d("TokenManager", "Token: $token")
-        } ?: Log.d("TokenManager", "Token: Zonk!")
         return tokenManager.getAccessToken()?.let { token ->
-            Log.d("AuthInterceptor", "Token: $token")
             val newRequest = originalRequest.newBuilder()
                 .header("Authorization", "Bearer $token")
                 .build()

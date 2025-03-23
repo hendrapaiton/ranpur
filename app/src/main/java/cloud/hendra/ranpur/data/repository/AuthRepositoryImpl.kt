@@ -16,7 +16,6 @@ class AuthRepositoryImpl(
     ): Result<LoginResponse> {
         return try {
             val response = authService.login(LoginRequest(email, password))
-            Log.d("AuthRepositoryImpl", response.body()?.token ?: "Zonk")
             if (response.isSuccessful) {
                 Result.Success(response.body()!!)
             } else {
