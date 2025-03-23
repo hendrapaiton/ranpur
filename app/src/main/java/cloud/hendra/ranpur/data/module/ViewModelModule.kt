@@ -8,7 +8,8 @@ var viewModelModule = module {
     viewModel {
         AuthViewModel(
             loginUseCase = get(),
-            tokenManager = get()
+            userUseCase = get(),
+            tokenManager = get(),
         )
     }
 }

@@ -1,6 +1,5 @@
 package cloud.hendra.ranpur.ui.screen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,14 +22,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cloud.hendra.ranpur.ui.viewmodel.AuthViewModel
-import cloud.hendra.ranpur.utils.state.AuthState.Loading
-import cloud.hendra.ranpur.utils.state.AuthState.Success
-import cloud.hendra.ranpur.utils.state.AuthState.Error
-import cloud.hendra.ranpur.utils.state.AuthState.Idle
+import cloud.hendra.ranpur.utils.state.GuardState.Authenticated
+import cloud.hendra.ranpur.utils.state.GuardState.Error
+import cloud.hendra.ranpur.utils.state.GuardState.Idle
+import cloud.hendra.ranpur.utils.state.GuardState.Loading
+import cloud.hendra.ranpur.utils.state.GuardState.Unauthenticated
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,7 +37,7 @@ import org.koin.androidx.compose.koinViewModel
 fun LoginPage(onLoginSuccess: () -> Unit, viewModel: AuthViewModel = koinViewModel()) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val state by viewModel.authState
+    val state by viewModel.authState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -76,11 +76,15 @@ fun LoginPage(onLoginSuccess: () -> Unit, viewModel: AuthViewModel = koinViewMod
         Spacer(modifier = Modifier.height(20.dp))
         when (val authState = state) {
             is Loading -> CircularProgressIndicator()
-            is Error -> Text(text = authState.message)
-            is Success -> {
-                Log.d("Login", "Login success")
+            is Error -> Text(text = authState.message.toString())
+            is Authenticated -> {
                 onLoginSuccess()
             }
+
+            is Unauthenticated -> {
+                Unit
+            }
+
             is Idle -> {
                 Button(
                     onClick = { viewModel.login(username, password) },
@@ -96,17 +100,4 @@ fun LoginPage(onLoginSuccess: () -> Unit, viewModel: AuthViewModel = koinViewMod
             }
         }
     }
-}
-
-@Composable
-fun LoginScreen() {
-    LoginPage(
-        onLoginSuccess = {}
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginPagePreview() {
-    LoginScreen()
 }
