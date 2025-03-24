@@ -7,11 +7,6 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import cloud.hendra.ranpur.ui.navigation.Routes.LOADING
-import cloud.hendra.ranpur.ui.navigation.Routes.LOGIN
-import cloud.hendra.ranpur.ui.navigation.Routes.PRODUCT
-import cloud.hendra.ranpur.ui.navigation.Routes.SALES
-import cloud.hendra.ranpur.ui.navigation.Routes.STOCK
 import cloud.hendra.ranpur.ui.screen.LoadingPage
 import cloud.hendra.ranpur.ui.screen.LoginPage
 import cloud.hendra.ranpur.ui.screen.ProductPage
@@ -27,10 +22,10 @@ fun Navigation(navController: NavHostController, authViewModel: AuthViewModel = 
 
     LaunchedEffect(authState) {
         when (authState) {
-            is GuardState.Authenticated -> navController.navigate(SALES)
-            is GuardState.Unauthenticated -> navController.navigate(LOGIN)
-            is GuardState.Loading -> navController.navigate(LOADING)
-            else -> navController.navigate(LOADING)
+            is GuardState.Authenticated -> navController.navigate(Screen.Sales.route)
+            is GuardState.Unauthenticated -> navController.navigate(Screen.Login.route)
+            is GuardState.Loading -> navController.navigate(Screen.Loading.route)
+            else -> navController.navigate(Screen.Loading.route)
         }
     }
 
@@ -40,22 +35,30 @@ fun Navigation(navController: NavHostController, authViewModel: AuthViewModel = 
 
     NavHost(
         navController = navController,
-        startDestination = LOADING
+        startDestination = Screen.Loading.route
     ) {
-        composable(route = LOADING) {
-            LoadingPage()
-        }
-        composable(route = LOGIN) {
-            LoginPage(onLoginSuccess = { navController.navigate(SALES) })
-        }
-        composable(route = PRODUCT) {
-            ProductPage()
-        }
-        composable(route = STOCK) {
-            StockPage()
-        }
-        composable(route = SALES) {
-            SalesPage()
-        }
+        appGraph(navController)
+    }
+}
+
+fun androidx.navigation.NavGraphBuilder.appGraph(navController: NavHostController) {
+    composable(route = Screen.Loading.route) {
+        LoadingPage()
+    }
+    composable(route = Screen.Login.route) {
+        LoginPage(onLoginSuccess = {
+            navController.navigate(Screen.Sales.route) {
+                popUpTo(Screen.Login.route) { inclusive = true }
+            }
+        })
+    }
+    composable(route = Screen.Product.route) {
+        ProductPage()
+    }
+    composable(route = Screen.Stock.route) {
+        StockPage()
+    }
+    composable(route = Screen.Sales.route) {
+        SalesPage()
     }
 }
