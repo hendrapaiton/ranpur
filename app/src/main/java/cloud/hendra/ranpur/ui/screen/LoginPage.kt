@@ -69,6 +69,7 @@ fun LoginPage(onLoginSuccess: () -> Unit, viewModel: AuthViewModel = koinViewMod
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = password,
+            visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
             onValueChange = { password = it },
             label = { Text("Password") },
             modifier = Modifier.fillMaxWidth()
