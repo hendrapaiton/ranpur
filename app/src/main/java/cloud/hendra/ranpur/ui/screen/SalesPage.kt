@@ -1,17 +1,22 @@
 package cloud.hendra.ranpur.ui.screen
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -28,7 +33,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -59,22 +63,51 @@ fun SalesPage() {
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(top = 16.dp)
                 .padding(innerPadding)
                 .fillMaxSize()
                 .background(Color.White)
         ) {
-            OutlinedTextField(
-                value = searchQuery,
-                onValueChange = { searchQuery = it },
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                leadingIcon = {
-                    Icon(Icons.Filled.Search, contentDescription = "Search")
-                },
-                label = { Text("Search Products") }
-            )
+                    .padding(horizontal = 16.dp)
+            ) {
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    leadingIcon = {
+                        Icon(Icons.Filled.Search, contentDescription = "Search")
+                    },
+                    label = { Text("Search Products") }
+                )
+                DropdownMenu(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 0.dp),
+                    expanded = true,
+                    onDismissRequest = { },
+                    containerColor = Color.Transparent,
+                    border = BorderStroke(0.dp, Color.Transparent),
+                    shadowElevation = 0.dp
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp, vertical = 0.dp)
+                            .offset(y = (-16).dp)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .background(MaterialTheme.colorScheme.surface)
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(text = "Coba") },
+                                onClick = {}
+                            )
+                        }
+                    }
+                }
+            }
             Spacer(modifier = Modifier.height(16.dp))
             Card(
                 modifier = Modifier
@@ -94,33 +127,16 @@ fun SalesPage() {
                             fontWeight = FontWeight.Bold,
                             color = Color.Black
                         )
-
                         Spacer(modifier = Modifier.height(8.dp))
-
                         Text(
                             text = "Rp 1.000.000",
                             fontSize = 16.sp,
                             color = Color(0xFF6200EE),
                             fontWeight = FontWeight.Medium
                         )
-
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Text(
-                            text = "Stok: 50 pcs",
-                            fontSize = 14.sp,
-                            color = Color.Gray
-                        )
                     }
                 }
             }
         }
-
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SalesPagePreview() {
-    SalesPage()
 }
