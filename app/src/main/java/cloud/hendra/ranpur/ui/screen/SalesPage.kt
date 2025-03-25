@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cloud.hendra.ranpur.ui.component.common.SearchBox
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,41 +73,7 @@ fun SalesPage() {
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             ) {
-                OutlinedTextField(
-                    value = searchQuery,
-                    onValueChange = { searchQuery = it },
-                    modifier = Modifier.fillMaxWidth(),
-                    leadingIcon = {
-                        Icon(Icons.Filled.Search, contentDescription = "Search")
-                    },
-                    label = { Text("Search Products") }
-                )
-                DropdownMenu(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 0.dp),
-                    expanded = true,
-                    onDismissRequest = { },
-                    containerColor = Color.Transparent,
-                    border = BorderStroke(0.dp, Color.Transparent),
-                    shadowElevation = 0.dp
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 0.dp)
-                            .offset(y = (-16).dp)
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .background(MaterialTheme.colorScheme.surface)
-                        ) {
-                            DropdownMenuItem(
-                                text = { Text(text = "Coba") },
-                                onClick = {}
-                            )
-                        }
-                    }
-                }
+                SearchBox()
             }
             Spacer(modifier = Modifier.height(16.dp))
             Card(
